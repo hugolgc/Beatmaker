@@ -54,8 +54,8 @@
           class="
             h-14
             px-4
-            space-x-1
             flex
+            justify-between
             items-center
             flex-auto
             border border-gray-800
@@ -63,24 +63,55 @@
             overflow-hidden
           "
         >
-          <input
-            class="
-              w-16
-              bg-transparent
-              text-white text-xl
-              tracking-wide
-              outline-none
-            "
-            type="number"
-            min="50"
-            max="400"
-            v-model="bpm"
-            @change="
-              play();
-              play();
-            "
-          />
-          <p class="text-white text-xl tracking-wide">BPM</p>
+          <div class="space-x-1 flex items-center">
+            <input
+              class="
+                w-16
+                bg-transparent
+                text-white text-xl
+                tracking-wide
+                outline-none
+              "
+              type="number"
+              min="50"
+              max="400"
+              v-model="bpm"
+              @change="
+                play();
+                play();
+              "
+            />
+            <p class="text-white text-xl tracking-wide">BPM</p>
+          </div>
+          <div class="flex space-x-6 text-white font-light tracking-wide">
+            <p
+              class="cursor-pointer"
+              @click="
+                setConfig(1);
+                play();
+              "
+            >
+              Config. 1
+            </p>
+            <p
+              class="cursor-pointer"
+              @click="
+                setConfig(2);
+                play();
+              "
+            >
+              Config. 2
+            </p>
+            <p
+              class="cursor-pointer"
+              @click="
+                setConfig(3);
+                play();
+              "
+            >
+              Config. 3
+            </p>
+          </div>
         </div>
       </div>
       <div
@@ -95,7 +126,7 @@
             class="hidden"
           ></audio>
           <img
-            :src="require('./assets/' + key + '.png')"
+            :src="require('./assets/' + key.slice(0, -1) + '.png')"
             :alt="'Image ' + key"
             class="m-auto"
           />
@@ -106,7 +137,9 @@
           @click="instruments[key].boxs[index] = !instruments[key].boxs[index]"
           class="h-14 flex-auto rounded-md cursor-pointer"
           :class="getClass(key, index)"
-        ></div>
+        >
+          {{ index }}
+        </div>
       </div>
     </div>
   </main>
@@ -123,44 +156,133 @@ export default {
       bpm: 146,
       interval: null,
       instruments: {
-        kick: {
+        kick1: {
           color: "bg-green",
           boxs: [],
         },
-        snare: {
+        kick2: {
+          color: "bg-green",
+          boxs: [],
+        },
+        kick3: {
+          color: "bg-green",
+          boxs: [],
+        },
+        snare1: {
           color: "bg-red",
           boxs: [],
         },
-        hat: {
+        hit1: {
           color: "bg-yellow",
           boxs: [],
         },
-        // tom: {
-        //   color: "bg-blue",
-        //   boxs: [],
-        // },
+        hit2: {
+          color: "bg-yellow",
+          boxs: [],
+        },
+        hit3: {
+          color: "bg-yellow",
+          boxs: [],
+        },
+        hit4: {
+          color: "bg-yellow",
+          boxs: [],
+        },
+        tom1: {
+          color: "bg-blue",
+          boxs: [],
+        },
+        tom2: {
+          color: "bg-blue",
+          boxs: [],
+        },
+        tom3: {
+          color: "bg-blue",
+          boxs: [],
+        },
       },
     };
   },
   methods: {
-    setSong() {
-      this.instruments.kick.boxs[0] = true;
-      this.instruments.kick.boxs[6] = true;
-      this.instruments.kick.boxs[12] = true;
-      this.instruments.kick.boxs[16] = true;
-      this.instruments.kick.boxs[22] = true;
-      this.instruments.snare.boxs[8] = true;
-      this.instruments.snare.boxs[24] = true;
-      this.instruments.hat.boxs[3] = true;
-      this.instruments.hat.boxs[5] = true;
-      this.instruments.hat.boxs[19] = true;
-      this.instruments.hat.boxs[21] = true;
+    setConfig(index) {
+      for (const key in this.instruments) {
+        for (let i = 0; i < 32; i++) {
+          this.instruments[key].boxs[i] = false;
+        }
+      }
+      if (index === 1) {
+        this.bpm = 146;
+        this.instruments.kick1.boxs[0] = true;
+        this.instruments.kick1.boxs[6] = true;
+        this.instruments.kick1.boxs[12] = true;
+        this.instruments.kick1.boxs[16] = true;
+        this.instruments.kick1.boxs[22] = true;
+        this.instruments.hit1.boxs[3] = true;
+        this.instruments.hit1.boxs[5] = true;
+        this.instruments.hit1.boxs[19] = true;
+        this.instruments.hit1.boxs[21] = true;
+        this.instruments.tom2.boxs[8] = true;
+        this.instruments.tom2.boxs[24] = true;
+      } else if (index === 2) {
+        this.bpm = 138;
+        this.instruments.kick2.boxs[0] = true;
+        this.instruments.kick2.boxs[6] = true;
+        this.instruments.kick2.boxs[15] = true;
+        this.instruments.kick2.boxs[16] = true;
+        this.instruments.kick2.boxs[23] = true;
+        this.instruments.kick2.boxs[28] = true;
+        this.instruments.kick3.boxs[0] = true;
+        this.instruments.kick3.boxs[16] = true;
+        this.instruments.hit4.boxs[4] = true;
+        this.instruments.hit4.boxs[12] = true;
+        this.instruments.hit4.boxs[20] = true;
+        this.instruments.hit4.boxs[28] = true;
+        this.instruments.tom1.boxs[8] = true;
+        this.instruments.tom1.boxs[24] = true;
+      } else {
+        this.bpm = 120;
+        this.instruments.kick1.boxs[0] = true;
+        this.instruments.kick1.boxs[4] = true;
+        this.instruments.kick1.boxs[8] = true;
+        this.instruments.kick1.boxs[11] = true;
+        this.instruments.kick1.boxs[14] = true;
+        this.instruments.kick1.boxs[16] = true;
+        this.instruments.kick1.boxs[20] = true;
+        this.instruments.kick1.boxs[24] = true;
+        this.instruments.kick1.boxs[27] = true;
+        this.instruments.kick1.boxs[30] = true;
+        this.instruments.tom2.boxs[3] = true;
+        this.instruments.tom2.boxs[6] = true;
+        this.instruments.tom2.boxs[11] = true;
+        this.instruments.tom2.boxs[14] = true;
+        this.instruments.tom2.boxs[19] = true;
+        this.instruments.tom2.boxs[22] = true;
+        this.instruments.tom2.boxs[27] = true;
+        this.instruments.tom2.boxs[30] = true;
+        this.instruments.snare1.boxs[7] = true;
+        this.instruments.snare1.boxs[10] = true;
+        this.instruments.snare1.boxs[14] = true;
+        this.instruments.snare1.boxs[19] = true;
+        this.instruments.snare1.boxs[23] = true;
+        this.instruments.snare1.boxs[26] = true;
+        this.instruments.snare1.boxs[30] = true;
+        this.instruments.hit3.boxs[2] = true;
+        this.instruments.hit3.boxs[6] = true;
+        this.instruments.hit3.boxs[7] = true;
+        this.instruments.hit3.boxs[10] = true;
+        this.instruments.hit3.boxs[14] = true;
+        this.instruments.hit3.boxs[15] = true;
+        this.instruments.hit3.boxs[18] = true;
+        this.instruments.hit3.boxs[22] = true;
+        this.instruments.hit3.boxs[23] = true;
+        this.instruments.hit3.boxs[31] = true;
+      }
     },
     init() {
       for (const key in this.instruments) {
         for (let i = 0; i < 32; i++) this.instruments[key].boxs.push(false);
       }
-      this.setSong();
+      this.setConfig(1);
     },
     getClass(key, index) {
       if (this.instruments[key].boxs[index]) {
