@@ -137,9 +137,7 @@
           @click="instruments[key].boxs[index] = !instruments[key].boxs[index]"
           class="h-14 flex-auto rounded-md cursor-pointer"
           :class="getClass(key, index)"
-        >
-          {{ index }}
-        </div>
+        ></div>
       </div>
     </div>
   </main>
