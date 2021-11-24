@@ -202,6 +202,13 @@ export default {
     };
   },
   methods: {
+    checkNavigator() {
+      if (
+        navigator.userAgent.indexOf("Chrome") == -1 &&
+        navigator.userAgent.indexOf("Firefox") == -1
+      )
+        alert("Ton navigateur est un peu long 🎧 utilise Chrome ou Firefox");
+    },
     setConfig(index) {
       for (const key in this.instruments) {
         for (let i = 0; i < 32; i++) {
@@ -321,6 +328,7 @@ export default {
   },
   mounted() {
     this.init();
+    this.checkNavigator();
     document.body.onkeyup = (e) => {
       if (e.code !== "Space") return;
       this.play();
