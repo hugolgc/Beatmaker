@@ -1,4 +1,4 @@
-# beatmaker
+# Beatmaker
 
 ## Project setup
 ```
